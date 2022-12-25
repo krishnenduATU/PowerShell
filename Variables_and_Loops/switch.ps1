@@ -1,5 +1,6 @@
 ﻿# Switch Conditions
 
+# Sets day value to 4
 $day = 4
 switch ( $day )
 {
@@ -11,4 +12,4 @@ switch ( $day )
 5 { $result = 'Friday' }
 6 { $result = 'Saturday' }
 }
-$result
+Write-Host "The Day is : " $result
