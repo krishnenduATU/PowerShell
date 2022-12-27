@@ -8,18 +8,18 @@ $REMOTE_SERVER = 'server-1'
 # Connect to server-1
 Enter-PSSession $REMOTE_SERVER
 
-# List disks and prepare
-Get-Disk
-Initialize-Disk 1
-Initialize-Disk 2
+Get-VM
+$DATE = Get-Date
+$DIRECTORY = $DATE.ToString('dd-MM-yyyy')
 
-# Partition the disks
-New-Partition -DiskNumber 1 -AssignDriveLetter –UseMaximumSize
-New-Partition -DiskNumber 2 -AssignDriveLetter –UseMaximumSize
+# Backup VMs
+$EXPORT_PATH = Join-Path -Path "K:\" -ChildPath $DIRECTORY
 
-# Format the disks
-Format-Volume –DriveLetter D -FileSystem NTFS -NewFileSystemLabel SMB
-Format-Volume –DriveLetter E -FileSystem NTFS -NewFileSystemLabel NFS
-Format-Volume –DriveLetter F -FileSystem NTFS -NewFileSystemLabel M2SSD1
+if(!(Test-Path $EXPORT_PATH))
+{
+    New-Item -ItemType Directory -Path $EXPORT_PATH
+}
+
+Export-VM -Name W10-JOR1 -Path $EXPORT_PATH
 
 Exit-PSSession
